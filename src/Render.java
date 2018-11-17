@@ -30,5 +30,28 @@ class Render extends JPanel {
         body2.paintHead(g);
         cheery.paintCherry(g);
 
+        g.setColor(Color.RED);
+
+        if(Frame.game== Frame.INITIAL ) g.drawString("Press SPACEBAR to start!",210,660);
+        if(Frame.game== Frame.PAUSED && Frame.collision==0) g.drawString("Press SPACEBAR to start!",210,660);
+        if(Frame.game== Frame.RUNNING && Frame.collision==0) g.drawString("Press SPACEBAR to pause!",210,660);
+
+        if(Frame.collision==Frame.HEAD2HEAD){
+            if(Body.score==Body2.score){
+                g.drawString("DRAW",350,660);
+            }
+            else if(Body.score>Body2.score) {
+                g.drawString("Player 1 WON",300,660);
+            }else{
+                g.drawString("Player 2 WON",300,660);
+            }
+            g.drawString("Press SPACEBAR to restart!",200,300);
+        }
+
+        if(Frame.collision==Frame.HEAD2BODY){
+            if(Body.score==-1) g.drawString("Player 2 WON",300,660);
+            if(Body2.score==-1) g.drawString("Player 1 WON",300,660);
+            g.drawString("Press SPACEBAR to restart!",200,300);
+        }
     }
 }

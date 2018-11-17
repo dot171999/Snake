@@ -5,18 +5,18 @@ import java.util.Random;
 
 class Body2 extends Component {
 
-    private Point head;
+    static Point head;
     private ImageIcon headPng,bodyPng=new ImageIcon(this.getClass().getResource("body2.png"));
-    private ArrayList<Point> snakeParts=new ArrayList<>();
-    private ArrayList<Point> past=new ArrayList<>();
-    private static final int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
-    private int direction=DOWN;
+    static  ArrayList<Point> snakeParts=new ArrayList<>();
+    static ArrayList<Point> past=new ArrayList<>();
+    private static final int UP = 1, DOWN = 2, LEFT = 3, RIGHT = 4;
+    static int direction=DOWN;
     static int move2=DOWN;
-    private int score=0;
-    private Font font = new Font("Verdana", Font.BOLD, 26);
+    static int score=0;
+    private Font font = new Font("Verdana", Font.BOLD, 24);
 
     Body2() {
-        this.head=new Point(781,1);
+        head=new Point(781,1);
     }
 
     private void tick() {
@@ -64,10 +64,24 @@ class Body2 extends Component {
             Random ran=new Random();
             Cheery.cheery.setLocation(ran.nextInt(40)*20,ran.nextInt(30)*20);
         }
+
+        if(doOverlap(head, Body.head)) {
+            Frame.start=false;
+            Frame.collision=Frame.HEAD2HEAD;
+        }
+
+        for(Point point : Body.snakeParts) {
+            if(doOverlap(head, point)) {
+                Frame.start=false;
+                Frame.collision=Frame.HEAD2BODY;
+                score=-1;
+                return;
+            }
+        }
     }
 
     private boolean doOverlap(Point l1, Point l2) {
-        if (l1.x > l2.x+20 || l2.x > l1.x+20 || l1.y > l2.y+20 || l2.y > l1.y+20) return false;
+        if (l1.x > l2.x+18 || l2.x > l1.x+18 || l1.y > l2.y+18 || l2.y > l1.y+18) return false;
 
         return true;
     }
